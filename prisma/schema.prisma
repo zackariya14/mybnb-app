@@ -28,6 +28,7 @@ model Property {
   owner         User      @relation(fields: [ownerId], references: [id])
   ownerId       String    @db.ObjectId
   bookings      Booking[]
+  imageUrls   String[]
 }
 
 model Booking {

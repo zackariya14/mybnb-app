@@ -1,101 +1,100 @@
-import Image from "next/image";
+"use client";
+import { useEffect, useState } from "react";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import Link from "next/link";
 
-export default function Home() {
+type Property = {
+  id: string;
+  name: string;
+  description: string;
+  pricePerNight: number;
+  location: string;
+  imageUrls: string[];
+};
+
+export default function HomePage() {
+  const [properties, setProperties] = useState<Property[]>([]);
+
+  useEffect(() => {
+    async function fetchProperties() {
+      const response = await fetch("/api/properties?limit=3");
+      const data = await response.json();
+      setProperties(data.slice(0, 3));
+    }
+    fetchProperties();
+  }, []);
+
+  const sliderSettings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    arrows: true,
+    adaptiveHeight: true,
+  };
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="https://nextjs.org/icons/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+    <div className="min-h-screen bg-gradient-to-r from-blue-50 via-white to-blue-50">
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="https://nextjs.org/icons/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+      <section className="relative h-[70vh] flex items-center justify-center text-center bg-cover bg-center" style={{ backgroundImage: "url('https://static.vecteezy.com/system/resources/thumbnails/023/308/330/small_2x/ai-generative-exterior-of-modern-luxury-house-with-garden-and-beautiful-sky-photo.jpg')" }}>
+        <div className="absolute inset-0 bg-black bg-opacity-50"></div>
+        <div className="relative z-10 text-white p-6 max-w-2xl">
+          <h1 className="text-5xl font-extrabold drop-shadow-md mb-4">Welcome to MyBnB</h1>
+          <p className="text-lg font-light drop-shadow-md mb-8">
+            Discover unique homes and experiences. Find your perfect stay with ease on our reliable rental platform.
+          </p>
+          <Link href="/properties">
+            <button className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-lg transition">
+              Explore All Properties
+            </button>
+          </Link>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+      </section>
+
+      <section className="p-10 bg-gradient-to-r from-blue-50 to-blue-100">
+        <h2 className="text-4xl font-bold text-center text-blue-600 mb-8">Featured Properties</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {properties.map((property) => (
+            <div key={property.id} className="bg-white shadow-lg rounded-lg overflow-hidden transform hover:scale-105 transition duration-300">
+              <div className="relative h-64">
+                <Slider {...sliderSettings}>
+                  {property.imageUrls.map((url, index) => (
+                    <div key={index} className="flex items-center justify-center h-64">
+                      <img
+                        src={url}
+                        alt={`Image ${index + 1}`}
+                        className="w-full h-full object-cover rounded-t-lg"
+                      />
+                    </div>
+                  ))}
+                </Slider>
+              </div>
+              <div className="p-6">
+                <h3 className="text-2xl font-semibold text-gray-800">{property.name}</h3>
+                <p className="text-gray-600 text-sm mt-2">{property.description || "No description available."}</p>
+                <p className="text-gray-800 font-medium mt-4">Location: <span className="text-gray-700">{property.location}</span></p>
+                <p className="text-gray-800 font-medium mt-2">Price per Night: <span className="text-green-600 font-bold">${property.pricePerNight}</span></p>
+                <Link href={`/properties/${property.id}`}>
+                  <button className="mt-4 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition">
+                    View Details
+                  </button>
+                </Link>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div className="flex justify-center mt-10">
+          <Link href="/properties">
+            <button className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-8 py-4 rounded-lg transition">
+              Show More Properties
+            </button>
+          </Link>
+        </div>
+      </section>
     </div>
   );
 }
