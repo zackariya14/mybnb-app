@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import Slider from 'react-slick';
+import Slider, { CustomArrowProps } from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 
@@ -88,7 +88,7 @@ function PropertyDetailPage() {
     nextArrow: <NextArrow />,
   };
 
-  function PrevArrow(props: any) {
+  function PrevArrow(props: CustomArrowProps) {
     const { onClick } = props;
     return (
       <button
@@ -101,7 +101,7 @@ function PropertyDetailPage() {
     );
   }
 
-  function NextArrow(props: any) {
+  function NextArrow(props: CustomArrowProps) {
     const { onClick } = props;
     return (
       <button
@@ -119,7 +119,6 @@ function PropertyDetailPage() {
       <h1 className="text-4xl font-bold text-center text-blue-700 mb-8">{property.name}</h1>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
-
         <div className="w-full h-full overflow-hidden rounded-lg shadow-lg flex items-center justify-center relative">
           <Slider {...sliderSettings} className="w-full h-full">
             {property.imageUrls.map((url, index) => (
